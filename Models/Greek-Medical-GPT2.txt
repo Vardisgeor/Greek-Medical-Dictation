@@ -1,0 +1,61 @@
+Greek GPT-2 (Medical Domain)
+============================
+
+Base Model
+----------
+lighteternal/gpt2-finetuned-greek (124M parameters)
+
+Intended Use
+------------
+- Greek medical text processing
+- ASR error correction in the medical domain
+- Ranking Whisper transcription candidates
+- Domain-specific Greek medical language modeling
+
+Training Data
+-------------
+Custom Greek Medical Text Dataset (20,430 samples):
+1. Medical E-books (clinical terminology)
+2. QTLP Greek CC Corpus (medical domain web texts)
+3. Istorima Podcast Dialogues (conversational language)
+
+Evaluation
+----------
+Dataset                 | Pre-trained GPT-2 | Fine-tuned GPT-2 | Improvement (%)
+------------------------|-----------------:|----------------:|----------------:
+Medical Texts           | 45.73             | 35.36           | 22.7
+Speech Transcriptions   | 103.21            | 67.67           | 34.4
+Combined                | 53.15             | 39.86           | 25.0
+
+Training
+--------
+- Final Validation Loss: 3.99
+- Final Perplexity: 38.22
+
+How to Use
+----------
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+# Load tokenizer
+tokenizer = AutoTokenizer.from_pretrained("Vardis/Medical_Speech_Greek_GPT2")
+
+# Load base model
+base_model = AutoModelForCausalLM.from_pretrained(
+    "lighteternal/gpt2-finetuned-greek",
+    torch_dtype=torch.float16,
+    device_map="auto"
+)
+
+# Load LoRA weights
+model = PeftModel.from_pretrained(base_model, "Vardis/Medical_Speech_Greek_GPT2").to(device)
+
+# Example inference
+input_text = "Ο ασθενής παρουσιάζει συμπτώματα που πρέπει να αξιολογηθούν"
+inputs = tokenizer(input_text, return_tensors="pt").to(device)
+outputs = model.generate(**inputs, max_length=50)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+

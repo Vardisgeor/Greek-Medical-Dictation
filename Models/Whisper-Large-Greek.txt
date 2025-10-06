@@ -1,0 +1,42 @@
+Whisper-Large-Greek
+===================
+
+Description
+-----------
+This is the Large version of Whisper fine-tuned for Greek automatic speech recognition (ASR).
+
+Details
+-------
+- Base Model: OpenAI Whisper Large (1.5B parameters)
+- Method: LoRA fine-tuning (PEFT)
+- Language: Greek
+- Datasets: Greek Mosel, Common Voice 11.0 (Greek), Google Fleurs (Greek)
+
+Results (best)
+--------------
+- WER: 12.15%
+- CER: 8.45%
+
+How to Use
+----------
+from transformers import WhisperProcessor, WhisperForConditionalGeneration
+from peft import PeftModel
+import torch
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+# Load base model
+base_model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2").to(device)
+
+# Load LoRA weights
+model = PeftModel.from_pretrained(base_model, "Vardis/Whisper-Large-v2-Greek").to(device)
+
+# Load processor
+processor = WhisperProcessor.from_pretrained("Vardis/Whisper-Large-v2-Greek")
+
+# Example inference
+audio_input = ...  # waveform array
+inputs = processor(audio_input, return_tensors="pt").input_features.to(device)
+predicted_ids = model.generate(inputs)
+print(processor.batch_decode(predicted_ids, skip_special_tokens=True))
+
