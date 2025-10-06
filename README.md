@@ -4,31 +4,29 @@ This repository contains code, models, and evaluation results from a thesis proj
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
-- **Code/**: Jupyter notebooks for model fine-tuning.
+- **Code**: Jupyter notebooks for model fine-tuning.
   - `Finetuning_Whisper.ipynb` – Fine-tuning Whisper models on Greek medical speech data.
   - `greek-gpt2.ipynb` – Fine-tuning GPT-2 for Greek medical text.
   
-- **Data/**: Dataset exploration and sample data.
+- **Data**: Dataset exploration and sample data.
   - `datasets-samples.ipynb` – Overview of the datasets used for training and evaluation.
   
-- **Evaluation/**: Model and pipeline performance analysis.
+- **Evaluation**: Model and pipeline performance analysis.
   - `models-evaluation.ipynb` – Evaluation of individual models (Whisper and GPT-2).
   - `pipeline-evaluation.ipynb` – Evaluation of the full Whisper + GPT-2 pipeline.
   
-- **Models/**: Documentation for each trained model.
+- **Models**: Documentation for each trained model.
   - `Greek-Medical-GPT2.txt`
   - `Whisper-Large-Greek.txt`
   - `Whisper-Medium-Greek.txt`
   - `Whisper-Small-Greek.txt`
   - `greek-mT5-medical.txt`
 
-- **requirements.txt**: Python dependencies.
-
 ---
 
-## 📝 Project Overview
+## Project Overview
 
 Accurate Greek medical transcription is a challenging and under-resourced task. Traditional ASR systems perform poorly due to:
 
@@ -46,8 +44,3 @@ This approach integrates **acoustic and linguistic modeling** to handle domain-s
 
 ---
 
-## ⚙️ Usage
-
-### 1. Install Dependencies
-```bash
-pip install -r requirements.txt
